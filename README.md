@@ -78,7 +78,7 @@ We welcome contributions! Please open an issue or submit a pull request.
 
 ## 📜 License
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License 2.0
 
 ## 📝 Citation
 
@@ -107,4 +107,4 @@ If you think our work helps in your research, please cite:
 
 ## 📧 Contact
 
-For questions, please contact [Yu Xi](yuxi.cs@sjtu.edu.cn) or [Haoyu Li](haoyu.li.cs@sjtu.edu.cn) or open an issue.
+For questions, please contact Yu Xi: yuxi.cs@sjtu.edu.cn or Haoyu Li: haoyu.li.cs@sjtu.edu.cn or open an issue.
