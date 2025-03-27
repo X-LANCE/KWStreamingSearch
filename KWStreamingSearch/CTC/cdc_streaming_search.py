@@ -14,21 +14,21 @@ class CDCStreamingSearch(KWSBaseSearch):
         """
         super().__init__()
         self.ctc_streaming_decode = CTCFsdStreamingSearch(blank=blank)
-        self.fusion_strategy = FusionStrategy('cdc-zero', cdc_conf)
+        self.fusion_strategy = FusionStrategy('cdc-vanilla', cdc_conf)
 
     def forward(
         self, inter_logits: torch.Tensor, final_logits: torch.Tensor,
         targets: torch.Tensor, logits_lens: torch.tensor, target_lens: torch.Tensor
     ):
         # intermediate layer decoding
-        _, inter_logalpha_tlist, _, _ \
+        _, inter_alpha_tlist, _, _ \
             = self.ctc_streaming_decode(inter_logits, targets, logits_lens, target_lens)
         
         # final layer decoding
-        forward_logprob, logalpha_tlist, start_tlist, total_tlist \
+        forward_logprob, alpha_tlist, start_tlist, total_tlist \
             = self.ctc_streaming_decode(final_logits, targets, logits_lens, target_lens)
         
         # cdc-based fusion
-        logalpha_tlist = self.fusion_strategy(inter_logalpha_tlist, logalpha_tlist)
+        alpha_tlist = self.fusion_strategy(inter_alpha_tlist, alpha_tlist) 
 
-        return forward_logprob, logalpha_tlist, start_tlist, total_tlist
+        return forward_logprob, alpha_tlist, start_tlist, total_tlist

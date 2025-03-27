@@ -1,0 +1,16 @@
+__pycache__/
+
+# Visual Studio Code files
+.vscode
+.vs
+
+# PyCharm files
+.idea
+venv
+
+# Eclipse Project settings
+*.*project
+.settings
+
+# macOS dir files
+.DS_Store

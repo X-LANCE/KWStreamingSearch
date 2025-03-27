@@ -2,15 +2,18 @@
 import torch
 import torchaudio
 
-from CTC.ctc_streaming_search import CTCFsdStreamingSearch
+from KWStreamingSearch.CTC.ctc_streaming_search import CTCFsdStreamingSearch
+
+device = 'cpu' # torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Stage1: load model
-your_model = torch.load('your_model.pth') # Transducer or CTC model
-your_model.eval()
-your_model.to('cuda')
+# your_model = torch.load('your_model.pth') # Transducer or CTC model
+# your_model.eval()
+# your_model.to('cuda')
+your_model = torch.nn.Linear(40, 71).to(device)
 
 # Stage2: load wav and extract the features.
-test_audio = torch.randn(1, 160000).to('cuda') # 10s of 16kHz audio
+test_audio = torch.randn(1, 16000).to(device) # 10s of 16kHz audio
 fbank = torchaudio.compliance.kaldi.fbank(
     test_audio,
     num_mel_bins=40,
@@ -20,19 +23,21 @@ fbank = torchaudio.compliance.kaldi.fbank(
 ) # T, 40
 
 batch_fbank = fbank.unsqueeze(0) # (B=1, T, 40)
-fbank_length = torch.tensor([fbank.shape[1]]) # (B=1, ), for decoding, we only support B=1.
+fbank_length = torch.tensor([fbank.shape[1]]).to(device) # (B=1, ), for decoding, we only support B=1.
 
 # Stage3: define the keyword.
 # phoneme or subword sequence of the keyword
-keyword_sequence = torch.tensor([[1, 2, 3, 4, 5]]).to('cuda') # (B=1, U), U is the length of the keyword sequence
-keyword_sequence_length = torch.tensor([keyword_sequence.shape[1]]).to('cuda') # (B=1, )
+keyword_sequence = torch.tensor([[1, 2, 3, 4, 5]]).to(device) # (B=1, U), U is the length of the keyword sequence
+keyword_sequence_length = torch.tensor([keyword_sequence.shape[1]]).to(device) # (B=1, )
 
 # Stage4: model forward to get logits.
 # CTC model: (B=1, T, V), V is the vocab size with blank.
 # Transducer model: (B=1, T, U, V), V is the vocab size with blank (also including durations, if use TDT.).
-logits = your_model(batch_fbank) 
+your_model = torch.nn.Linear(40, 71).to(device)
+logits = your_model(batch_fbank)
 
 # Stage5: define the corresponding search method. We use the CTC fsd (frame-synchronous decoding) search as an example.
+# !!!Caution!!!: KWS decoding contains a log-softmax calculation, so please pass logits to the search instead of posterior.
 kws_streaming_search = CTCFsdStreamingSearch(blank=0) # some frameworks doesn't use blank=0, maybe blank=len(vocab). 
 _, score_tlist, _, _ = kws_streaming_search(
     logits, keyword_sequence, fbank_length, keyword_sequence_length

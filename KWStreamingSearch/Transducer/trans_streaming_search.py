@@ -2,6 +2,7 @@ import torch
 
 from typing import List
 from KWStreamingSearch.base_search import KWSBaseSearch
+from KWStreamingSearch.fusion_strategy import PH
 
 class RNNTStreamingSearch(KWSBaseSearch):
     def __init__(self, blank: int = 0):
@@ -34,9 +35,9 @@ class RNNTStreamingSearch(KWSBaseSearch):
         forward_logprob, logalpha_tlist, start_tlist, total_tlist = \
             self.streaming_search(posteriors, targets, logits_lens, target_lens)
         
-        logalpha_tlist = self.postprocessing(logalpha_tlist, total_tlist)
+        alpha_tlist = self.postprocessing(logalpha_tlist, total_tlist)
 
-        return forward_logprob, logalpha_tlist, start_tlist, total_tlist
+        return forward_logprob, alpha_tlist, start_tlist, total_tlist
 
     def streaming_search(
         self, posteriors: torch.Tensor, targets: torch.Tensor,  logits_lens: torch.tensor, target_lens: torch.Tensor
@@ -49,9 +50,9 @@ class RNNTStreamingSearch(KWSBaseSearch):
         start_alpha = torch.zeros(B, T, U)
         total_alpha = torch.zeros(B, T, U)
        
-        log_alpha_each_t = ["placeholder" for _ in range(T)]
-        start_alpha_each_t = ["placeholder" for _ in range(T)]
-        total_alpha_each_t = ["placeholder" for _ in range(T)]
+        log_alpha_each_t = [PH for _ in range(T)]
+        start_alpha_each_t = [PH for _ in range(T)]
+        total_alpha_each_t = [PH for _ in range(T)]
         
         for t in range(T):
             for u in range(U):
@@ -140,9 +141,9 @@ class TDTStreamingSearch(KWSBaseSearch):
         forward_logprob, logalpha_tlist, start_tlist, total_tlist = \
             self.streaming_search(target_posteriors, targets, logits_lens, target_lens, t2skip)
 
-        logalpha_tlist = self.postprocessing(logalpha_tlist, total_tlist)
+        alpha_tlist = self.postprocessing(logalpha_tlist, total_tlist)
 
-        return forward_logprob, logalpha_tlist, start_tlist, total_tlist
+        return forward_logprob, alpha_tlist, start_tlist, total_tlist
     
     def streaming_search(
         self, target_posteriors: torch.Tensor, targets: torch.Tensor,  logits_lens: torch.tensor, target_lens: torch.Tensor, t2skip=None,
@@ -159,9 +160,9 @@ class TDTStreamingSearch(KWSBaseSearch):
         log_alpha = log_alpha.to(target_posteriors.device)
 
         # log field can't get 1. so use 1 to init log alpha.
-        log_alpha_each_t = ["placeholder" for _ in range(T)]
-        start_alpha_each_t = ["placeholder" for _ in range(T)]
-        total_alpha_each_t = ["placeholder" for _ in range(T)]
+        log_alpha_each_t = [PH for _ in range(T)]
+        start_alpha_each_t = [PH for _ in range(T)]
+        total_alpha_each_t = [PH for _ in range(T)]
 
         for b in range(B):
             t = 0

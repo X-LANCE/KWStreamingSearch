@@ -1,11 +1,11 @@
 import torch
 
 from KWStreamingSearch.base_search import KWSBaseSearch
-
+from KWStreamingSearch.fusion_strategy import PH
 
 class CTCFsdStreamingSearch(KWSBaseSearch):
     def __init__(self, blank: int = 0):
-        super().__init__()
+        super().__init__(blank)
         self.ctc_psd_decode = CTCPsdStreamingSearch(blank=blank, max_keep_blank_threshold=1.0)
 
     def forward(
@@ -37,9 +37,9 @@ class CTCFsdStreamingSearch(KWSBaseSearch):
         forward_logprob, logalpha_tlist, start_tlist, total_tlist \
             = self.ctc_psd_decode(logits, targets, logits_lens, target_lens)
         
-        logalpha_tlist = self.postprocessing(logalpha_tlist, total_tlist)
+        alpha_tlist = self.postprocessing(logalpha_tlist, total_tlist)
 
-        return forward_logprob, logalpha_tlist, start_tlist, total_tlist
+        return forward_logprob, alpha_tlist, start_tlist, total_tlist
 
 
 class CTCPsdStreamingSearch(KWSBaseSearch):
@@ -78,10 +78,10 @@ class CTCPsdStreamingSearch(KWSBaseSearch):
         
         log_alpha = log_alpha.to(posteriors.device)
 
-        log_prob = "placeholder"
-        log_alpha_each_t = ["placeholder" for _ in range(T)] 
-        start_alpha_each_t = ["placeholder" for _ in range(T)]
-        total_alpha_each_t = ["placeholder" for _ in range(T)]
+        log_prob = PH
+        log_alpha_each_t = [PH for _ in range(T)] 
+        start_alpha_each_t = [PH for _ in range(T)]
+        total_alpha_each_t = [PH for _ in range(T)]
 
         b, t, psd_skips = 0, 0, 0 # B = 1
         while t < T:
