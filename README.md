@@ -1,31 +1,31 @@
 # KWStreamingSearch
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![arXiv](https://img.shields.io/badge/arXiv-2403.13332-b31b1b.svg)](https://arxiv.org/abs/2403.13332)
 [![arXiv](https://img.shields.io/badge/arXiv-2412.12635-b31b1b.svg)](https://arxiv.org/abs/2412.12635)
 
-This repository contains the official implementation of streaming decoding algorithms for ASR-based Keyword Spotting (KWS) systems from our series of publications:
 
-1. **MFA-KWS**: Effective Keyword Spotting with Multi-head Frame-asynchronous Decoding  
-   *(Under review, code available in this repository)*
+## 📚 Publications
+Official repository for streaming decoding algorithms for ASR-based Keyword Spotting (KWS) systems, featuring implementations from our research papers:
 
-2. **CDC-KWS**: Streaming Keyword Spotting Boosted by Cross-layer Discrimination Consistency  
-   Xi, Yu et al. *ICASSP 2025*  
-   [![arXiv](https://img.shields.io/badge/arXiv-2412.12635-b31b1b.svg)](https://arxiv.org/abs/2412.12635)  
+1. **MFA-KWS**: Effective Keyword Spotting with Multi-head Frame-asynchronous Decoding 
+   (**T-ASLP Under Review**)
+2. **CDC-KWS**: Streaming Keyword Spotting Boosted by Cross-layer Discrimination Consistency 
+   (**ICASSP 2025**, [Arxiv](https://arxiv.org/abs/2412.12635) | [IEEE](https://ieeexplore.ieee.org/document/10890010))
+1. **TDT-KWS**: Fast and Accurate Keyword Spotting Using Token-and-Duration Transducer
+   (**ICASSP 2024**, [Arxiv](https://arxiv.org/abs/2403.13332) | [IEEE](https://ieeexplore.ieee.org/document/10446909))
 
-3. **TDT-KWS**: Fast and Accurate Keyword Spotting Using Token-and-Duration Transducer  
-   Xi, Yu et al. *ICASSP 2024*  
-   [![arXiv](https://img.shields.io/badge/arXiv-2403.13332-b31b1b.svg)](https://arxiv.org/abs/2403.13332)  
+## 📖 Overview
 
+This repository contains state-of-the-art streaming decoding algorithms for KWS systems, featuring:
 
-## Features
+- **Frame-asynchronous decoding** for efficient keyword search
+- **Multi-head fusion** for robust performance
+- **Cross-layer consistency** for improved discrimination
+- **Transducer-based** approaches for Transducer-based KWS
+- **CTC-based** approaches for CTC-based KWS 
 
-- 🚀 **Streaming-first architecture**: Low-latency decoding algorithms optimized for real-time KWS
-- 🧠 **Multi-head asynchronous decoding**: MFA-KWS's novel frame-asynchronous approach
-- ⚡ **Cross-layer optimization**: CDC-KWS's consistency boosting technique
-- ⏱️ **Token-and-Duration modeling**: TDT-KWS's efficient transducer architecture
-
-## Installation
+## 🛠️ Installation
 
 ```bash
 git clone https://github.com/yourusername/KWStreamingSearch.git
@@ -33,51 +33,57 @@ cd KWStreamingSearch
 pip install -r requirements.txt
 ```
 
-## Quick Start
-
-```python
-from kws_streaming import MFADecoder
-
-# Initialize MFA-KWS decoder
-decoder = MFADecoder(
-    model_path="pretrained/kws_model.pth",
-    keywords=["hey assistant", "stop music"]
-)
-
-# Streaming processing
-for audio_chunk in audio_stream:
-    results = decoder.process_chunk(audio_chunk)
-    if results.detected_keywords:
-        print(f"Detected: {results.detected_keywords}")
-```
-## Structure
+## 🏗️ Repository Structure
 
 ```
 KWStreamingSearch
 ├── KWStreamingSearch
 │   ├── CTC
-│   │   ├── cdc_streaming_search.py
-│   │   └── ctc_streaming_search.py
+│   │   ├── cdc_streaming_search.py      # CDC-enhanced streaming search
+│   │   └── ctc_streaming_search.py     # Basic CTC streaming search
 │   ├── MFA
-│   │   └── mfa_streaming_search.py
+│   │   └── mfa_streaming_search.py     # Multi-head frame-asynchronous search
 │   ├── Transducer
-│   │   └── trans_streaming_search.py
+│   │   └── trans_streaming_search.py   # Transducer-based search
 │   ├── __init__.py
-│   ├── base_search.py # Base class of searching method.
-│   ├── fusion_strategy.py # Different fusion strategies for multi-branch or multi-layer fusion, 
-                             including frame-synchronous and -asynchronous methods.
-│   ├── inference_decoder.py
-│   └── prefix_search.py
+│   ├── base_search.py                  # Base search class
+│   ├── example.py                      # Usage examples
+│   └── fusion_strategy.py              # Fusion strategies
 ├── README.md
-└── requirements.txt # Python dependencies
+└── requirements.txt
 ```
 
-## Citation
+## 🚀 Quick Start
 
-If you use this work, please cite the relevant papers:
+See `example.py` for more detailed usage examples.
+
+## 📊 Performance Highlights
+
+- **TDT-KWS**:
+  - Propose a new Transducer-based streaming deocding method, outperforming the traditional ASR-based decoding.
+  - Significant inference speed-up by the variant of Token-and-Duration Transducer.
+
+- **CDC-KWS**:
+  - CTC-based keyword-specific streaming search.
+  - Improved robustness in noisy environments by cross-layer discrimination consitency.
+
+- **MFA-KWS**:
+  - State-of-the-art on Snips, MobvoiHotwords, LibriKWS-20.
+  - Significant speed-up over frame-synchronous baselines.
+
+## 🤝 Contributing
+
+We welcome contributions! Please open an issue or submit a pull request.
+
+## 📜 License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## 📝 Citation
+
+If you think our work helps in your research, please cite:
 
 ```bibtex
-# TDT-KWS
 @inproceedings{icassp2024-yuxi-tdt_kw,
   author       = {Yu Xi and Hao Li and Baochen Yang and Haoyu Li and Hainan Xu and Kai Yu},
   title        = {{TDT-KWS:} Fast and Accurate Keyword Spotting Using Token-and-Duration
@@ -87,7 +93,6 @@ If you use this work, please cite the relevant papers:
   year         = {2024},
 }
 
-# CDC-KWS
 @INPROCEEDINGS{icassp2025-yuxi-cdc_kws,
   author={Xi, Yu and Li, Haoyu and Gu, Xiaoyu and Li, Hao and Jiang, Yidi and Yu, Kai},
   booktitle={ICASSP 2025 - 2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, 
@@ -97,19 +102,8 @@ If you use this work, please cite the relevant papers:
 }
 ```
 
-## License
+(MFA-KWS will be added after publication)
 
-Apache 2.0 © [Your Name/Organization]
+## 📧 Contact
 
----
-
-Key features of this README:
-1. Clear hierarchical presentation of all three papers
-2. Badges for arXiv links and license
-3. Quick start example showing typical usage
-4. Structured benchmark results
-5. Complete citation information
-6. Professional yet accessible tone
-
-Would you like me to add any specific implementation details or usage examples for any particular algorithm?
-
+For questions, please contact [Yu Xi](yuxi.cs@sjtu.edu.cn) or [Haoyu Li](haoyu.li.cs@sjtu.edu.cn) or open an issue.
