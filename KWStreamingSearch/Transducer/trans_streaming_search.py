@@ -34,6 +34,8 @@ class RNNTStreamingSearch(KWSBaseSearch):
         forward_logprob, logalpha_tlist, start_tlist, total_tlist = \
             self.streaming_search(posteriors, targets, logits_lens, target_lens)
         
+        logalpha_tlist = self.postprocessing(logalpha_tlist, total_tlist)
+
         return forward_logprob, logalpha_tlist, start_tlist, total_tlist
 
     def streaming_search(
@@ -137,6 +139,8 @@ class TDTStreamingSearch(KWSBaseSearch):
 
         forward_logprob, logalpha_tlist, start_tlist, total_tlist = \
             self.streaming_search(target_posteriors, targets, logits_lens, target_lens, t2skip)
+
+        logalpha_tlist = self.postprocessing(logalpha_tlist, total_tlist)
 
         return forward_logprob, logalpha_tlist, start_tlist, total_tlist
     

@@ -37,6 +37,8 @@ class CTCFsdStreamingSearch(KWSBaseSearch):
         forward_logprob, logalpha_tlist, start_tlist, total_tlist \
             = self.ctc_psd_decode(logits, targets, logits_lens, target_lens)
         
+        logalpha_tlist = self.postprocessing(logalpha_tlist, total_tlist)
+
         return forward_logprob, logalpha_tlist, start_tlist, total_tlist
 
 
@@ -55,6 +57,8 @@ class CTCPsdStreamingSearch(KWSBaseSearch):
 
         forward_logprob, logalpha_tlist, start_tlist, total_tlist = \
             self.streaming_search(posteriors, targets, logits_lens, target_lens)
+
+        logalpha_tlist = self.postprocessing(logalpha_tlist, total_tlist)
 
         return forward_logprob, logalpha_tlist, start_tlist, total_tlist
 
