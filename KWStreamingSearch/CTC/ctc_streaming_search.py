@@ -1,6 +1,6 @@
 import torch
 
-from KWStreamingSearch.base import KWSBaseSearch
+from KWStreamingSearch.base_search import KWSBaseSearch
 
 
 class CTCFsdStreamingSearch(KWSBaseSearch):
@@ -26,7 +26,7 @@ class CTCFsdStreamingSearch(KWSBaseSearch):
         Returns:
             forward_logprob (float): forward_logprob is not used for KWS-based search here.
                                      But we don't remove it for compatibility. (ASR decoding uses it to observe the decoding confidence)
-            logalpha_tlist (List[float]): the log probability of the keyword at each time step t.
+            logalpha_tlist (List[float]): the log probability of the keyword at each time step t (keyword activation scores).
             start_tlist (List[int]): start time step of the keyword at each time step t. 
                                      Used to observe the start time step of the keyword activation status.
             total_tlist (List[int]): total transition steps of the optimal keyword search path at each time step t.

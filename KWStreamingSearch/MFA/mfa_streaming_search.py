@@ -1,5 +1,5 @@
 import torch
-from KWStreamingSearch.base import KWSBaseSearch
+from KWStreamingSearch.base_search import KWSBaseSearch
 from KWStreamingSearch.CTC.ctc_streaming_search import CTCPsdStreamingSearch
 from KWStreamingSearch.Transducer.trans_streaming_search import RNNTStreamingSearch, TDTStreamingSearch
 from KWStreamingSearch.fusion_strategy import FusionStrategy

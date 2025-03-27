@@ -1,7 +1,7 @@
 import torch
 
 from typing import List
-from KWStreamingSearch.base import KWSBaseSearch
+from KWStreamingSearch.base_search import KWSBaseSearch
 
 class RNNTStreamingSearch(KWSBaseSearch):
     def __init__(self, blank: int = 0):
