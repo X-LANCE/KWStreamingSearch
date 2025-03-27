@@ -39,16 +39,17 @@ pip install -r requirements.txt
 KWStreamingSearch
 ├── KWStreamingSearch
 │   ├── CTC
-│   │   ├── cdc_streaming_search.py      # CDC-enhanced streaming search
-│   │   └── ctc_streaming_search.py     # Basic CTC streaming search
+│   │   ├── cdc_streaming_search.py  # CDC-enhanced streaming search
+│   │   └── ctc_streaming_search.py  # Basic CTC streaming search
 │   ├── MFA
-│   │   └── mfa_streaming_search.py     # Multi-head frame-asynchronous search
+│   │   ├── mfa_streaming_search.py  # Multi-head frame-asynchronous search
+│   │   └── mfs_streaming_search.py  # Multi-head frame-synchronous search
 │   ├── Transducer
-│   │   └── trans_streaming_search.py   # Transducer-based search
+│   │   └── trans_streaming_search.py # Transducer-based streaming search
 │   ├── __init__.py
-│   ├── base_search.py                  # Base search class
-│   ├── example.py                      # Usage examples
-│   └── fusion_strategy.py              # Fusion strategies
+│   ├── base_search.py  # Base search class
+│   ├── example.py  # Usage examples
+│   └── fusion_strategy.py  # Fusion strategies
 ├── README.md
 └── requirements.txt
 ```

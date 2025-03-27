@@ -14,3 +14,5 @@ venv
 
 # macOS dir files
 .DS_Store
+
+*.pyc
