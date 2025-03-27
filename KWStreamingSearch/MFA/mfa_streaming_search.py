@@ -14,7 +14,18 @@ class MFSStreamingSearch(KWSBaseSearch):
 
     def forward(self, ctc_posterior: torch.tensor, trans_posterior: torch.tensor, 
                 targets: torch.Tensor, logits_lens: torch.tensor, target_lens: torch.Tensor):
-        pass
+        # RNN-T decoding
+        _, ctc_logalpha_tlist, _, _ \
+            = self.ctc_search(ctc_posterior, targets, logits_lens, target_lens)
+        
+        # CTC decoding
+        forward_logprob, trans_logalpha_tlist, start_tlist, total_tlist \
+            = self.trans_search(trans_posterior, targets, logits_lens, target_lens)
+        
+        # fusion
+        logalpha_tlist = self.fusion_strategy(trans_logalpha_tlist, ctc_logalpha_tlist)
+
+        return forward_logprob, logalpha_tlist, start_tlist, total_tlist
 
 
 class MFAStreamingSearch(KWSBaseSearch):
@@ -27,4 +38,15 @@ class MFAStreamingSearch(KWSBaseSearch):
 
     def forward(self, ctc_posterior: torch.tensor, trans_posterior: torch.tensor, 
                 targets: torch.Tensor, logits_lens: torch.tensor, target_lens: torch.Tensor):
-        pass
+        # TDT decoding
+        _, ctc_logalpha_tlist, _, _ \
+            = self.ctc_search(ctc_posterior, targets, logits_lens, target_lens)
+        
+        # CTC decoding
+        forward_logprob, trans_logalpha_tlist, start_tlist, total_tlist \
+            = self.trans_search(trans_posterior, targets, logits_lens, target_lens)
+        
+        # fusion
+        logalpha_tlist = self.fusion_strategy(trans_logalpha_tlist, ctc_logalpha_tlist)
+
+        return forward_logprob, logalpha_tlist, start_tlist, total_tlist
