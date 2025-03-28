@@ -14,11 +14,11 @@ class MFSStreamingSearch(KWSBaseSearch):
 
     def forward(self, ctc_logits: torch.tensor, trans_logits: torch.tensor, 
                 targets: torch.Tensor, logits_lens: torch.tensor, target_lens: torch.Tensor):
-        # RNN-T decoding
+        # CTC decoding
         _, ctc_alpha_tlist, _, _ \
             = self.ctc_search(ctc_logits, targets, logits_lens, target_lens)
         
-        # CTC decoding
+        # RNN-T decoding
         forward_logprob, trans_alpha_tlist, start_tlist, total_tlist \
             = self.trans_search(trans_logits, targets, logits_lens, target_lens)
         

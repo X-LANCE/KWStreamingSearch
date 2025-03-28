@@ -130,7 +130,7 @@ class TDTStreamingSearch(KWSBaseSearch):
                                 We don't provide this part of code as greedy search is heavily coupled to the model implementation. 
                                 But it's very simple, as just can be derived from the Transudcer-based greedy search. 
         Returns:
-            The maenings of the return values can refer to the comments in the CTCFsdStreamingSearch.forward.
+            The meanings of the return values can refer to the comments in the CTCFsdStreamingSearch.forward.
         """
         target_posteriors = logits[:, :, :, :-self.n_durations]
         target_posteriors = torch.log_softmax(target_posteriors, dim=-1)
