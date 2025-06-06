@@ -9,7 +9,7 @@
 Official repository for streaming decoding algorithms for ASR-based Keyword Spotting (KWS) systems, featuring implementations from our research papers:
 
 1. **MFA-KWS**: Effective Keyword Spotting with Multi-head Frame-asynchronous Decoding 
-   (**Arxiv**, [Arxiv](https://arxiv.org/abs/2505.19577) | (**T-ASLP Under Review**))
+   (**Arxiv**, [Arxiv](https://arxiv.org/abs/2505.19577) | **T-ASLP Under Review**)
 2. **CDC-KWS**: Streaming Keyword Spotting Boosted by Cross-layer Discrimination Consistency 
    (**ICASSP 2025**, [Arxiv](https://arxiv.org/abs/2412.12635) | [IEEE](https://ieeexplore.ieee.org/document/10890010))
 1. **TDT-KWS**: Fast and Accurate Keyword Spotting Using Token-and-Duration Transducer
